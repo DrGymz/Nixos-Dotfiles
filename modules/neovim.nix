@@ -16,7 +16,7 @@
     nil
     clang-tools
     pyright
-    nixfmt-rfc-style
+    nixfmt
 
     nodejs
   ];

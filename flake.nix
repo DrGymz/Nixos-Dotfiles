@@ -40,20 +40,5 @@
           }
         ];
       };
-
-      devShells.${system}.particle = pkgs.mkShell {
-        packages = with pkgs; [
-          gcc
-          cmake
-          gnumake
-          gdb
-          clang-tools
-          particle-cli
-        ];
-
-        shellHook = ''
-          		echo "🚀 C++ & Particle Cloud Environment Loaded!"
-          		'';
-      };
     };
 }

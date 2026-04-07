@@ -36,6 +36,18 @@
     asusd.enable = true;
     supergfxd.enable = true;
     displayManager.ly.enable = true;
+    libinput = {
+      enable = true;
+      mouse = {
+        accelSpeed = "1.0";
+        accelProfile = "flat";
+      };
+      touchpad = {
+        naturalScrolling = true;
+        accelSpeed = "2.0";
+        accelProfile = "flat";
+      };
+    };
     xserver = {
       enable = true;
       videoDrivers = [ "modesetting" ];
@@ -72,6 +84,11 @@
     fastfetch
     btop
     brightnessctl
+    bibata-cursors
+    localsend
+    maim
+    xclip
+    feh
   ];
 
   fonts.packages = with pkgs.nerd-fonts; [
@@ -86,6 +103,8 @@
       });
     })
   ];
+
+  programs.dconf.enable = true;
 
   nix.settings.experimental-features = [
     "nix-command"

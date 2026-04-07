@@ -15,15 +15,17 @@ static const int showbar = 1; /* 0 means no bar */
 static const int topbar = 1;  /* 0 means bottom bar */
 static const char *fonts[] = {"JetBrainsMono Nerd Font:size=12"};
 static const char dmenufont[] = "JetBrainsMono Nerd Font:size=12";
-static const char col_gray1[] = "#282828";  /* gruvbox bg */
-static const char col_gray2[] = "#3c3836";  /* gruvbox bg1 — unfocused border */
-static const char col_gray3[] = "#a89984";  /* gruvbox fg4 — unfocused text */
-static const char col_gray4[] = "#ebdbb2";  /* gruvbox fg  — selected text */
-static const char col_cyan[]  = "#458588";  /* gruvbox blue — selected bg/border */
+static const char col_gray1[] = "#282828"; /* gruvbox bg */
+static const char col_gray2[] = "#3c3836"; /* gruvbox bg1 — unfocused border */
+static const char col_gray3[] = "#a89984"; /* gruvbox fg4 — unfocused text */
+static const char col_gray4[] = "#ebdbb2"; /* gruvbox fg  — selected text */
+static const char col_cyan[] = "#98971a"; /* gruvbox green  — selected bar bg */
+static const char col_border[] =
+    "#504945"; /* gruvbox bg2   — active window border */
 static const char *colors[][3] = {
     /*               fg         bg         border   */
     [SchemeNorm] = {col_gray3, col_gray1, col_gray2},
-    [SchemeSel] = {col_gray4, col_cyan, col_cyan},
+    [SchemeSel] = {col_gray4, col_cyan, col_border},
 };
 
 /* tagging */
@@ -79,8 +81,8 @@ static const char *dmenucmd[] = {
     "-nf",       col_gray3, "-sb",    col_cyan, "-sf",     col_gray4, NULL};
 static const char *termcmd[] = {"alacritty", NULL};
 static const char *firefoxcmd[] = {"firefox", NULL};
-static const char *wallpapercmd[] = {"wall-picker", NULL};
-static const char *kbledcmd[] = {"asusctl", "led-mode", "-n", NULL};
+static const char *kbledcmd[] = {"asusctl", "leds", "next", NULL};
+static const char *screenshot[] = {"/bin/sh", "-c", "maim -s | xclip -selection clipboard -t image/png", NULL};
 
 static const Key keys[] = {
     /* modifier                     key        function        argument */
@@ -100,8 +102,8 @@ static const Key keys[] = {
     {MODKEY, XK_t, setlayout, {.v = &layouts[0]}},
     {MODKEY, XK_f, setlayout, {.v = &layouts[1]}},
     {MODKEY, XK_m, setlayout, {.v = &layouts[2]}},
-    {MODKEY | ShiftMask, XK_w, spawn, {.v = wallpapercmd}},
     {0, XK_F4, spawn, {.v = kbledcmd}},
+    {0, XK_Print, spawn, {.v = screenshot}},
     {MODKEY, XK_r, setlayout, {.v = &layouts[3]}},
     {MODKEY | ShiftMask, XK_r, setlayout, {.v = &layouts[4]}},
     {MODKEY, XK_space, setlayout, {0}},
