@@ -42,11 +42,6 @@
         accelSpeed = "1.0";
         accelProfile = "flat";
       };
-      touchpad = {
-        naturalScrolling = true;
-        accelSpeed = "2.0";
-        accelProfile = "flat";
-      };
     };
     xserver = {
       enable = true;
@@ -55,7 +50,12 @@
       autoRepeatDelay = 200;
       autoRepeatInterval = 35;
       windowManager = {
-        dwm.enable = true;
+        dwm = {
+          enable = true;
+          package = pkgs.dwm.overrideAttrs {
+            src = ./nixos-config/dwm;
+          };
+        };
       };
     };
     openssh.enable = true;
@@ -85,7 +85,6 @@
     btop
     brightnessctl
     bibata-cursors
-    localsend
     maim
     xclip
     feh
@@ -94,14 +93,6 @@
   fonts.packages = with pkgs.nerd-fonts; [
     jetbrains-mono
     geist-mono
-  ];
-
-  nixpkgs.overlays = [
-    (final: prev: {
-      dwm = prev.dwm.overrideAttrs (_: {
-        src = ./nixos-config/dwm;
-      });
-    })
   ];
 
   programs.dconf.enable = true;

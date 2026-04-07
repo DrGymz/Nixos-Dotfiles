@@ -150,15 +150,15 @@
 
         /* ── URL bar autocomplete dropdown ── */
         .urlbarView {
-          background-color: var(--gb-bg) !important;
+          background-color: var(--gb-bg1) !important;
           color: var(--gb-fg) !important;
           border-color: var(--gb-bg2) !important;
         }
         .urlbarView-body-inner {
-          background-color: var(--gb-bg) !important;
+          background-color: var(--gb-bg1) !important;
         }
         .urlbarView-row {
-          background-color: var(--gb-bg) !important;
+          background-color: var(--gb-bg1) !important;
           color: var(--gb-fg) !important;
         }
         .urlbarView-row:hover,

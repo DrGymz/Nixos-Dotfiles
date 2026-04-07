@@ -37,7 +37,7 @@ in
   home.pointerCursor = {
     package = pkgs.bibata-cursors;
     name = "Bibata-Original-Classic";
-    size = 64;
+    size = 48;
     x11.enable = true;
   };
 
@@ -73,6 +73,14 @@ in
       Type = "simple";
       Environment = "DISPLAY=:0";
       ExecStart = "${pkgs.writeShellScript "dwm-status" ''
+        export XCURSOR_THEME="Bibata-Original-Classic"
+        export XCURSOR_SIZE=48
+        ${pkgs.xsetroot}/bin/xsetroot -cursor_name left_ptr
+        TOUCHPAD=$(${pkgs.xinput}/bin/xinput list --name-only | ${pkgs.gnugrep}/bin/grep -i touch | ${pkgs.coreutils}/bin/head -1)
+        if [ -n "$TOUCHPAD" ]; then
+          ${pkgs.xinput}/bin/xinput set-prop "$TOUCHPAD" "Coordinate Transformation Matrix" 2.8125 0 0 0 2.8125 0 0 0 1
+          ${pkgs.xinput}/bin/xinput set-prop "$TOUCHPAD" "libinput Scrolling Pixel Distance" 200
+        fi
         while true; do
           BAT_CAP=$(${pkgs.coreutils}/bin/cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | ${pkgs.coreutils}/bin/head -1 || echo "?")
           BAT_STATUS=$(${pkgs.coreutils}/bin/cat /sys/class/power_supply/BAT*/status 2>/dev/null | ${pkgs.coreutils}/bin/head -1 || echo "")
@@ -81,7 +89,7 @@ in
           else
             BAT_ICON="🔋"
           fi
-          ${pkgs.xorg.xsetroot}/bin/xsetroot -name " $BAT_ICON $BAT_CAP%   $(${pkgs.coreutils}/bin/date '+%a %b %d  %I:%M %p') "
+          ${pkgs.xsetroot}/bin/xsetroot -name " $BAT_ICON $BAT_CAP%   $(${pkgs.coreutils}/bin/date '+%a %b %d  %I:%M %p') "
           ${pkgs.coreutils}/bin/sleep 30
         done
       ''}";
