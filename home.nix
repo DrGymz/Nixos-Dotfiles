@@ -9,14 +9,20 @@
 let
   dotfiles = "${config.home.homeDirectory}/dotfiles/nixos-config";
   create_symlink = path: config.lib.file.mkOutOfStoreSymlink path;
+  waybar-auto-hide = pkgs.rustPlatform.buildRustPackage {
+    pname = "waybar-auto-hide";
+    version = "0.1.0";
+    src = inputs.waybar-auto-hide;
+    cargoHash = "sha256-mUY36hnyU/qjHRLqRwfVLl6hAGIy92Sg6s1XB56Hvf8=";
+  };
   configs = {
-    nvim   = "nvim";
-    dwm    = "dwm";
-    rofi   = "rofi";
-    kitty  = "kitty";
-    tmux   = "tmux";
+    nvim = "nvim";
+    rofi = "rofi";
+    kitty = "kitty";
+    tmux = "tmux";
     waybar = "waybar";
     swaync = "swaync";
+    hypr = "hypr";
   };
 in
 
@@ -25,7 +31,15 @@ in
   home.homeDirectory = "/home/asus";
   home.stateVersion = "25.11";
 
-  home.packages = with pkgs; [ xsetroot hyprpaper hypridle ];
+  home.packages = [
+    waybar-auto-hide
+    (inputs.apple-fonts.packages.${pkgs.system}.sf-pro.overrideAttrs (_: {
+      src = pkgs.fetchurl {
+        url = "https://devimages-cdn.apple.com/design/resources/download/SF-Pro.dmg";
+        hash = "sha256-W0sZkipBtrduInk0oocbFAXX1qy0Z+yk2xUyFfDWx4s=";
+      };
+    }))
+  ];
 
   gtk = {
     enable = true;
@@ -34,7 +48,7 @@ in
       package = pkgs.gruvbox-gtk-theme;
     };
     font = {
-      name = "JetBrainsMono Nerd Font";
+      name = "JetBrainsMono Nerd Font Propo";
       size = 11;
     };
   };
@@ -42,74 +56,14 @@ in
   home.pointerCursor = {
     package = pkgs.bibata-cursors;
     name = "Bibata-Original-Classic";
-    size = 48;
-    x11.enable = true;
+    size = 24;
     gtk.enable = true;
   };
 
-  systemd.user.services.wallpaper-cycle = {
-    Unit = {
-      Description = "Cycle wallpapers from ~/dotfiles/wallpapers";
-      After = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-    Service = {
-      Type = "simple";
-      Environment = "DISPLAY=:0";
-      ExecStart = "${pkgs.writeShellScript "wallpaper-cycle" ''
-        while true; do
-          for img in ${config.home.homeDirectory}/dotfiles/wallpapers/*; do
-            ${pkgs.feh}/bin/feh --bg-fill "$img"
-            ${pkgs.coreutils}/bin/sleep 300
-          done
-        done
-      ''}";
-      Restart = "on-failure";
-    };
-    Install.WantedBy = [ "graphical-session.target" ];
-  };
-
-  systemd.user.services.dwm-status = {
-    Unit = {
-      Description = "dwm status bar clock";
-      After = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-    Service = {
-      Type = "simple";
-      Environment = "DISPLAY=:0";
-      ExecStart = "${pkgs.writeShellScript "dwm-status" ''
-        export XCURSOR_THEME="Bibata-Original-Classic"
-        export XCURSOR_SIZE=48
-        ${pkgs.xsetroot}/bin/xsetroot -cursor_name left_ptr
-        TOUCHPAD=$(${pkgs.xinput}/bin/xinput list --name-only | ${pkgs.gnugrep}/bin/grep -i touch | ${pkgs.coreutils}/bin/head -1)
-        if [ -n "$TOUCHPAD" ]; then
-          ${pkgs.xinput}/bin/xinput set-prop "$TOUCHPAD" "Coordinate Transformation Matrix" 2.8125 0 0 0 2.8125 0 0 0 1
-          ${pkgs.xinput}/bin/xinput set-prop "$TOUCHPAD" "libinput Scrolling Pixel Distance" 200
-        fi
-        while true; do
-          BAT_CAP=$(${pkgs.coreutils}/bin/cat /sys/class/power_supply/BAT*/capacity 2>/dev/null | ${pkgs.coreutils}/bin/head -1 || echo "?")
-          BAT_STATUS=$(${pkgs.coreutils}/bin/cat /sys/class/power_supply/BAT*/status 2>/dev/null | ${pkgs.coreutils}/bin/head -1 || echo "")
-          if [ "$BAT_STATUS" = "Charging" ]; then
-            BAT_ICON="⚡"
-          else
-            BAT_ICON=""
-          fi
-          ${pkgs.xsetroot}/bin/xsetroot -name " $BAT_ICON $BAT_CAP%   $(${pkgs.coreutils}/bin/date '+%a %b %d  %I:%M %p') "
-          ${pkgs.coreutils}/bin/sleep 30
-        done
-      ''}";
-      Restart = "on-failure";
-    };
-    Install.WantedBy = [ "graphical-session.target" ];
-  };
   xdg.configFile = builtins.mapAttrs (name: subpath: {
     source = create_symlink "${dotfiles}/${subpath}";
     recursive = true;
-  }) configs // {
-    "hypr/hyprland.conf" = lib.mkForce { source = create_symlink "${dotfiles}/hypr/hyprland.conf"; };
-    "hypr/hyprpaper.conf" = { source = create_symlink "${dotfiles}/hypr/hyprpaper.conf"; };
-  };
+  }) configs;
 
   imports = [
     ./modules/neovim.nix

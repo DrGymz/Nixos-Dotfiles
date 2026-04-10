@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 mode=$(asusctl profile get | awk '/Active profile/ {print $NF}')
 case "$mode" in
   Quiet)       echo "Quiet" ;;

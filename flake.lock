@@ -1,5 +1,26 @@
 {
   "nodes": {
+    "apple-fonts": {
+      "inputs": {
+        "flake-parts": "flake-parts",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1709568998,
+        "narHash": "sha256-cXl5pfkrfkxgAoCuUcv6TYqNCFNJC7khaRLB6Qi1rag=",
+        "ref": "refs/heads/main",
+        "rev": "8d73d62fca08bad0837fe7f1cda4ef104d5f0f8c",
+        "revCount": 15,
+        "type": "git",
+        "url": "https://codeberg.org/adamcstephens/apple-fonts.nix"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://codeberg.org/adamcstephens/apple-fonts.nix"
+      }
+    },
     "firefox-addons": {
       "inputs": {
         "nixpkgs": [
@@ -20,6 +41,24 @@
         "owner": "rycee",
         "repo": "nur-expressions",
         "type": "gitlab"
+      }
+    },
+    "flake-parts": {
+      "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib"
+      },
+      "locked": {
+        "lastModified": 1709336216,
+        "narHash": "sha256-Dt/wOWeW6Sqm11Yh+2+t0dfEWxoMxGBvv3JpIocFl9E=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "f7b3c975cf067e56e7cda6cb098ebe3fb4d74ca2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
       }
     },
     "home-manager": {
@@ -59,11 +98,47 @@
         "type": "github"
       }
     },
+    "nixpkgs-lib": {
+      "locked": {
+        "dir": "lib",
+        "lastModified": 1709237383,
+        "narHash": "sha256-cy6ArO4k5qTx+l5o+0mL9f5fa86tYUX3ozE1S+Txlds=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "1536926ef5621b09bba54035ae2bb6d806d72ac8",
+        "type": "github"
+      },
+      "original": {
+        "dir": "lib",
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
+        "apple-fonts": "apple-fonts",
         "firefox-addons": "firefox-addons",
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "waybar-auto-hide": "waybar-auto-hide"
+      }
+    },
+    "waybar-auto-hide": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1773226247,
+        "narHash": "sha256-0pAy5PkdZy2c4XBOArSpoO2JFmNYYMqCn0cuIigmDwc=",
+        "owner": "Zephirus2",
+        "repo": "waybar_auto_hide",
+        "rev": "0c9bbe6a8275b66d69295cb84aeb276fb6575643",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Zephirus2",
+        "repo": "waybar_auto_hide",
+        "type": "github"
       }
     }
   },

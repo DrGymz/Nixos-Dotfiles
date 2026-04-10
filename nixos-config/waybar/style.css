@@ -3,7 +3,6 @@
 @define-color bg2 #2c313a;
 @define-color bg3 #3e4451;
 
-@define-color navy     #1a2740;
 @define-color deepblue #2c456b;
 @define-color slate    #56759b;
 @define-color moon     #c3d4e6;
@@ -17,8 +16,10 @@
 * {
     border: none;
     border-radius: 0px;
-    font-family: "Adwaita Sans", "GeistMono Nerd Font", sans-serif;
+
+    font-family: "SF Pro Display", "GeistMono Nerd Font Propo", sans-serif;
     font-weight: bold;
+
     min-height: 0;
     padding: 0;
     margin: 0;

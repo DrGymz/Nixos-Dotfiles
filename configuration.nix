@@ -49,14 +49,6 @@
       dpi = 192;
       autoRepeatDelay = 200;
       autoRepeatInterval = 35;
-      windowManager = {
-        dwm = {
-          enable = true;
-          package = pkgs.dwm.overrideAttrs {
-            src = ./nixos-config/dwm;
-          };
-        };
-      };
     };
     openssh.enable = true;
   };
@@ -86,8 +78,6 @@
     brightnessctl
     bibata-cursors
     maim
-    xclip
-    feh
     bitwarden-desktop
     kitty
     tmux

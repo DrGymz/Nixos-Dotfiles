@@ -6,6 +6,8 @@
     waybar
     swaynotificationcenter
     rofi
+    hyprpaper
+    hypridle
   ];
 
   wayland.windowManager.hyprland = {
@@ -16,7 +18,7 @@
   programs.bash = {
     enable = true;
     shellAliases = {
-      nrs = "git add ~/dotfiles && sudo nixos-rebuild switch --flake ~/dotfiles#nixos";
+      nrs = "cd ~/dotfiles && git add . && sudo nixos-rebuild switch --flake ~/dotfiles#nixos";
     };
   };
 

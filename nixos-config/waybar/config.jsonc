@@ -26,16 +26,16 @@
     "pulseaudio": {
       "format":             "{icon} {volume}%",
       "format-bluetooth":   "{icon} {volume}%",
-      "format-muted":       "",
+      "format-muted":       "󰝟",
       "format-icons": {
-        "headphone":    "",
-        "hands-free":   "",
-        "headset":      "",
-        "phone":        "",
-        "phone-muted":  "",
-        "portable":     "",
-        "car":          "",
-        "default":      ["", ""]
+        "headphone":    "󰋋",
+        "hands-free":   "󰋎",
+        "headset":      "󰋎",
+        "phone":        "󰏲",
+        "phone-muted":  "󰏳",
+        "portable":     "󰦾",
+        "car":          "󰄋",
+        "default":      ["󰕿", "󰖀", "󰕾"]
       },
       "scroll-step":   1,
       "on-click":      "pavucontrol",
@@ -79,19 +79,19 @@
     "battery": {
       "interval":       2,
       "states":         { "warning": 30, "critical": 15 },
-      "format":         "{icon}  {capacity}%",
-      "format-full":    "{icon}  {capacity}%",
-      "format-charging":" {capacity}%",
-      "format-plugged": " {capacity}%",
-      "format-icons":   ["", "", "", "", ""],
+      "format":         "{icon} {capacity}%",
+      "format-full":    "{icon} {capacity}%",
+      "format-charging":"󰂄 {capacity}%",
+      "format-plugged": "󰚥 {capacity}%",
+      "format-icons":   ["󰁺","󰁾", "󰂀", "󰁹"],
       "tooltip-format": "{}"
     },
 
     "network": {
       "interval":            5,
       "on-click":            "airctl",
-      "format-wifi":         "{essid} ",
-      "format-disconnected": "Disconnected ⚠",
+      "format-wifi":         "󰤨 {essid}",
+      "format-disconnected": "󰤭 Disconnected",
       "tooltip":             false
     },
 
@@ -101,7 +101,7 @@
     },
 
     "custom/archicon": {
-      "format":   " 󰣇 ",
+      "format":   "󰣇",
       "tooltip":  false,
       "on-click": "~/.config/rofi/launchers/type-2/launcher.sh"
     }

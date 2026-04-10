@@ -10,6 +10,16 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    waybar-auto-hide = {
+      url   = "github:Zephirus2/waybar_auto_hide";
+      flake = false;
+    };
+
+    apple-fonts = {
+      url = "git+https://codeberg.org/adamcstephens/apple-fonts.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

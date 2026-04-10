@@ -35,7 +35,7 @@
       lualine-nvim
       gruvbox-nvim
       tokyonight-nvim
-      catppuccin-nvim # Fixed spelling
+      catppuccin-nvim
       comment-nvim
       nvim-web-devicons
 
@@ -47,7 +47,7 @@
       cmp-path
       cmp-cmdline
       luasnip
-      cmp_luasnip # Fixed prefix and spelling
+      cmp_luasnip
 
       nvim-colorizer-lua
       mini-pairs
