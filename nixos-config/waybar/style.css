@@ -1,0 +1,111 @@
+@define-color bg0 #282c34;
+@define-color bg1 #21252b;
+@define-color bg2 #2c313a;
+@define-color bg3 #3e4451;
+
+@define-color navy     #1a2740;
+@define-color deepblue #2c456b;
+@define-color slate    #56759b;
+@define-color moon     #c3d4e6;
+@define-color crimson  #e05f65;
+@define-color amber    #f2b84b;
+@define-color green    #569b56;
+@define-color cyan     #5fd7ff;
+
+@define-color fg #abb2bf;
+
+* {
+    border: none;
+    border-radius: 0px;
+    font-family: "Adwaita Sans", "GeistMono Nerd Font", sans-serif;
+    font-weight: bold;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+}
+
+window#waybar {
+    background: transparent;
+}
+
+tooltip {
+    background: @bg0;
+    border: 1px solid @bg3;
+    border-radius: 12px;
+}
+
+tooltip label {
+    color: @fg;
+    padding: 6px;
+}
+
+#workspaces {
+    background-color: @bg0;
+    padding: 5px 3px;
+    margin: 4px 0 0 12px;
+    border-radius: 18px;
+    border: 1px solid @bg0;
+    color: @fg;
+}
+
+#workspaces button {
+    padding: 0px 6px;
+    margin: 0px 8px;
+    border-radius: 50px;
+    color: transparent;
+    background-color: @bg1;
+    transition: all 0.3s ease-in-out;
+}
+
+#workspaces button:not(.empty) {
+    background-color: alpha(@deepblue, 0.35);
+    color: alpha(@amber, 0.35);
+    min-width: 25px;
+    transition: all 0.3s ease-in-out;
+}
+
+#workspaces button.active {
+    background-color: @deepblue;
+    color: @amber;
+    min-width: 50px;
+    transition: all 0.3s ease-in-out;
+}
+
+#workspaces button:hover {
+    background-color: @deepblue;
+    color: @amber;
+    border-radius: 16px;
+    min-width: 50px;
+}
+
+#workspaces button.urgent {
+    background-color: @bg0;
+    color: @bg0;
+    border-radius: 16px;
+    min-width: 50px;
+    transition: all 0.3s ease-in-out;
+}
+
+#battery,
+#pulseaudio,
+#network,
+#clock,
+#custom-archicon,
+#custom-notification,
+#custom-asus {
+    background-color: @bg0;
+    padding: 0 15px;
+    margin: 4px 0 0 12px;
+    border-radius: 50px;
+    border: 1px solid @bg1;
+}
+
+#clock               { color: @moon; }
+#custom-notification { color: @slate; margin: 4px 12px 0 10px; }
+#pulseaudio          { color: @slate; }
+#network             { color: @slate; }
+#custom-archicon     { color: @cyan; }
+#battery             { color: @green; }
+#battery.warning     { color: @amber; }
+#battery.critical    { color: @crimson; }
+#custom-asus         { color: @slate; }

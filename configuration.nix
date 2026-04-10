@@ -88,6 +88,22 @@
     maim
     xclip
     feh
+    bitwarden-desktop
+    kitty
+    tmux
+    hyprpaper
+    hypridle
+    wl-clipboard
+    cliphist
+    grim
+    slurp
+    pavucontrol
+    playerctl
+    nemo
+    papirus-icon-theme
+    blueman
+    libnotify
+    zsh-powerlevel10k
   ];
 
   fonts.packages = with pkgs.nerd-fonts; [
@@ -95,7 +111,14 @@
     geist-mono
   ];
 
+  # Particle Photon 2 / P2 USB access (DFU + CDC modes)
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="2b04", MODE="0666", GROUP="dialout"
+    SUBSYSTEM=="tty", ATTRS{idVendor}=="2b04", MODE="0666", GROUP="dialout"
+  '';
+
   programs.dconf.enable = true;
+  programs.hyprland.enable = true;
 
   nix.settings.experimental-features = [
     "nix-command"

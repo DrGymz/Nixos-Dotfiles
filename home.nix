@@ -10,8 +10,13 @@ let
   dotfiles = "${config.home.homeDirectory}/dotfiles/nixos-config";
   create_symlink = path: config.lib.file.mkOutOfStoreSymlink path;
   configs = {
-    nvim = "nvim";
-    dwm = "dwm";
+    nvim   = "nvim";
+    dwm    = "dwm";
+    rofi   = "rofi";
+    kitty  = "kitty";
+    tmux   = "tmux";
+    waybar = "waybar";
+    swaync = "swaync";
   };
 in
 
@@ -20,7 +25,7 @@ in
   home.homeDirectory = "/home/asus";
   home.stateVersion = "25.11";
 
-  home.packages = with pkgs; [ xsetroot ];
+  home.packages = with pkgs; [ xsetroot hyprpaper hypridle ];
 
   gtk = {
     enable = true;
@@ -39,6 +44,7 @@ in
     name = "Bibata-Original-Classic";
     size = 48;
     x11.enable = true;
+    gtk.enable = true;
   };
 
   systemd.user.services.wallpaper-cycle = {
@@ -87,7 +93,7 @@ in
           if [ "$BAT_STATUS" = "Charging" ]; then
             BAT_ICON="⚡"
           else
-            BAT_ICON="🔋"
+            BAT_ICON=""
           fi
           ${pkgs.xsetroot}/bin/xsetroot -name " $BAT_ICON $BAT_CAP%   $(${pkgs.coreutils}/bin/date '+%a %b %d  %I:%M %p') "
           ${pkgs.coreutils}/bin/sleep 30
@@ -97,28 +103,17 @@ in
     };
     Install.WantedBy = [ "graphical-session.target" ];
   };
-  programs.bash = {
-    enable = true;
-    shellAliases = {
-      nrs = "sudo nixos-rebuild switch --flake ~/dotfiles#nixos";
-    };
-  };
-
-  programs.git = {
-    enable = true;
-    settings = {
-      user.name = "DrGymz";
-      user.email = "258542754+DrGymz@users.noreply.github.com";
-    };
-  };
-
   xdg.configFile = builtins.mapAttrs (name: subpath: {
     source = create_symlink "${dotfiles}/${subpath}";
     recursive = true;
-  }) configs;
+  }) configs // {
+    "hypr/hyprland.conf" = lib.mkForce { source = create_symlink "${dotfiles}/hypr/hyprland.conf"; };
+    "hypr/hyprpaper.conf" = { source = create_symlink "${dotfiles}/hypr/hyprpaper.conf"; };
+  };
 
   imports = [
     ./modules/neovim.nix
     ./modules/firefox.nix
+    ./modules/one-liners.nix
   ];
 }
