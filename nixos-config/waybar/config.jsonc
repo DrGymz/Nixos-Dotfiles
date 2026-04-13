@@ -24,8 +24,8 @@
     },
 
     "pulseaudio": {
-      "format":             "{icon} {volume}%",
-      "format-bluetooth":   "{icon} {volume}%",
+      "format":             "{icon}  {volume}%",
+      "format-bluetooth":   "{icon}  {volume}%",
       "format-muted":       "󰝟",
       "format-icons": {
         "headphone":    "󰋋",
@@ -38,7 +38,7 @@
         "default":      ["󰕿", "󰖀", "󰕾"]
       },
       "scroll-step":   1,
-      "on-click":      "pavucontrol",
+      "on-click":      "blueman-manager",
       "ignored-sinks": ["Easy Effects Sink"]
     },
 
@@ -79,10 +79,10 @@
     "battery": {
       "interval":       2,
       "states":         { "warning": 30, "critical": 15 },
-      "format":         "{icon} {capacity}%",
-      "format-full":    "{icon} {capacity}%",
-      "format-charging":"󰂄 {capacity}%",
-      "format-plugged": "󰚥 {capacity}%",
+      "format":         "{icon}  {capacity}%",
+      "format-full":    "{icon}  {capacity}%",
+      "format-charging":"󰂄  {capacity}%",
+      "format-plugged": "󰚥  {capacity}%",
       "format-icons":   ["󰁺","󰁾", "󰂀", "󰁹"],
       "tooltip-format": "{}"
     },
@@ -90,8 +90,8 @@
     "network": {
       "interval":            5,
       "on-click":            "airctl",
-      "format-wifi":         "󰤨 {essid}",
-      "format-disconnected": "󰤭 Disconnected",
+      "format-wifi":         "󰤨  {essid}",
+      "format-disconnected": "󰤭  Disconnected",
       "tooltip":             false
     },
 

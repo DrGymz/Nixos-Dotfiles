@@ -24,7 +24,7 @@
   "script-fail-notify": true,
   "scripts": {},
   "notification-visibility": {},
-  "widgets": ["label", "buttons-grid", "mpris", "title", "dnd", "notifications"],
+  "widgets": ["mpris", "title", "dnd", "notifications"],
   "widget-config": {
     "title": {
       "text": "Notifications",
@@ -40,6 +40,7 @@
         { "label": "",   "command": "amixer set Master toggle" },
         { "label": "",   "command": "amixer set Capture toggle" },
         { "label": "",   "command": "airctl" },
+        { "label": "󰤨", "command": "nm-connection-editor" },
         { "label": "󰂯", "command": "blueman-manager" }
       ]
     }

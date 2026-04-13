@@ -2,12 +2,33 @@
 {
   home.packages = with pkgs; [
     kitty
+    obsidian
     tmux
     waybar
     swaynotificationcenter
     rofi
     hyprpaper
     hypridle
+    btop
+    brightnessctl
+    bibata-cursors
+    maim
+    bitwarden-desktop
+    kitty
+    tmux
+    hyprpaper
+    hypridle
+    wl-clipboard
+    cliphist
+    grim
+    slurp
+    pavucontrol
+    playerctl
+    nemo
+    blueman
+    libnotify
+    zsh-powerlevel10k
+    eza
   ];
 
   wayland.windowManager.hyprland = {
@@ -17,15 +38,13 @@
 
   programs.bash = {
     enable = true;
-    shellAliases = {
-      nrs = "cd ~/dotfiles && git add . && sudo nixos-rebuild switch --flake ~/dotfiles#nixos";
-    };
   };
 
   programs.zsh = {
     enable = true;
     shellAliases = {
-      nrs = "git add ~/dotfiles && sudo nixos-rebuild switch --flake ~/dotfiles#nixos";
+      nrs = "cd ~/dotfiles && git add . && sudo nixos-rebuild switch --flake ~/dotfiles#nixos";
+      ls = "eza -la";
     };
     oh-my-zsh = {
       enable = true;

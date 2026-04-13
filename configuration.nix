@@ -25,6 +25,7 @@
     options = "--delete-older-than 14d";
   };
   nix.settings.auto-optimise-store = true;
+  nixpkgs.config.allowUnfree = true;
 
   hardware.graphics.enable = true;
   hardware.acpilight.enable = true;
@@ -63,37 +64,13 @@
       "dialout"
       "video"
     ];
-    packages = with pkgs; [
-      tree
-    ];
   };
 
   environment.systemPackages = with pkgs; [
     vim
     git
-    alacritty
     wget
     fastfetch
-    btop
-    brightnessctl
-    bibata-cursors
-    maim
-    bitwarden-desktop
-    kitty
-    tmux
-    hyprpaper
-    hypridle
-    wl-clipboard
-    cliphist
-    grim
-    slurp
-    pavucontrol
-    playerctl
-    nemo
-    papirus-icon-theme
-    blueman
-    libnotify
-    zsh-powerlevel10k
   ];
 
   fonts.packages = with pkgs.nerd-fonts; [

@@ -47,6 +47,10 @@ in
       name = "Gruvbox-Dark";
       package = pkgs.gruvbox-gtk-theme;
     };
+    iconTheme = {
+      name = "Gruvbox-Plus-Dark";
+      package = pkgs.gruvbox-plus-icons;
+    };
     font = {
       name = "JetBrainsMono Nerd Font Propo";
       size = 11;
@@ -55,7 +59,7 @@ in
 
   home.pointerCursor = {
     package = pkgs.bibata-cursors;
-    name = "Bibata-Original-Classic";
+    name = "Bibata-Modern-Classic";
     size = 24;
     gtk.enable = true;
   };

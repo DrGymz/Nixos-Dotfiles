@@ -44,6 +44,9 @@
 
         # Prevent white flash before page load
         "browser.startup.blankWindow" = false;
+
+        # Use XDG portal for file picker (fixes black screen on Hyprland/Wayland)
+        "widget.use-xdg-desktop-portal.file-picker" = 1;
       };
 
       userChrome = ''
