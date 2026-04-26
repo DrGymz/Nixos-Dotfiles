@@ -16,6 +16,10 @@
   networking.hostName = "nixos"; # Define your hostname.
 
   networking.networkmanager.enable = true;
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
 
   time.timeZone = "America/Chicago";
 
@@ -30,12 +34,23 @@
   hardware.graphics.enable = true;
   hardware.acpilight.enable = true;
 
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = true;
+    open = true;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    # PRIME will be configured after first rebuild reveals the NVIDIA bus ID
+    # Run: lspci | grep -i nvidia
+  };
+
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.kernelModules = [ "amdgpu" ];
 
   services = {
     asusd.enable = true;
     supergfxd.enable = true;
+    blueman.enable = true;
     displayManager.ly.enable = true;
     libinput = {
       enable = true;
@@ -46,14 +61,19 @@
     };
     xserver = {
       enable = true;
-      videoDrivers = [ "modesetting" ];
+      videoDrivers = [ "nvidia" ];
       dpi = 192;
       autoRepeatDelay = 200;
       autoRepeatInterval = 35;
     };
     openssh.enable = true;
+    power-profiles-daemon.enable = false;
   };
 
+  services.mullvad-vpn = {
+    enable = true;
+    package = pkgs.mullvad-vpn;
+  };
   systemd.services.supergfxd.path = [ pkgs.pciutils ];
 
   users.users.asus = {

@@ -5,10 +5,12 @@
     obsidian
     tmux
     waybar
+    evince
     swaynotificationcenter
     rofi
     hyprpaper
     hypridle
+    discord
     btop
     brightnessctl
     bibata-cursors
@@ -21,6 +23,7 @@
     wl-clipboard
     cliphist
     grim
+    google-chrome
     slurp
     pavucontrol
     playerctl
@@ -29,6 +32,13 @@
     libnotify
     zsh-powerlevel10k
     eza
+    raylib
+    gcc
+    cmake
+    pkg-config
+    screen
+    curl
+    particle-cli
   ];
 
   wayland.windowManager.hyprland = {
@@ -45,6 +55,8 @@
     shellAliases = {
       nrs = "cd ~/dotfiles && git add . && sudo nixos-rebuild switch --flake ~/dotfiles#nixos";
       ls = "eza -la";
+      compile = "particle compile photon2 src/ --saveTo firmware.bin";
+      flash = "particle flash --usb firmware.bin";
     };
     oh-my-zsh = {
       enable = true;
