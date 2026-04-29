@@ -7,6 +7,12 @@ FLAKE_REF="/mnt/etc/nixos#nixos"
 echo "=== NixOS Installer ==="
 echo ""
 
+# --- Ensure git is available (minimal ISO doesn't include it) ---
+if ! command -v git &>/dev/null; then
+  echo "Installing git..."
+  nix-env -iA nixos.git
+fi
+
 # --- Disk selection ---
 lsblk -d -o NAME,SIZE,MODEL
 echo ""
@@ -77,18 +83,30 @@ git clone "$REPO_URL" /mnt/etc/nixos
 # Replace with the freshly generated hardware config
 cp /tmp/hw-config.nix /mnt/etc/nixos/hardware-configuration.nix
 
+# --- Clone dotfiles to user home (for home-manager symlinks) ---
+echo "    Cloning dotfiles to /home/asus/dotfiles..."
+mkdir -p /mnt/home/asus
+git clone "$REPO_URL" /mnt/home/asus/dotfiles
+
 # --- Install ---
 echo "[6/7] Running nixos-install (this will take a while)..."
 nixos-install --flake "$FLAKE_REF" --no-root-passwd
 
 # --- Done ---
 echo ""
-echo "[7/7] Setting root password..."
+echo "[7/7] Setting passwords..."
+echo "--- Set root password ---"
 nixos-enter --root /mnt -- passwd root
+echo ""
+echo "--- Set asus user password ---"
+nixos-enter --root /mnt -- passwd asus
+
+# Fix ownership of user dotfiles
+nixos-enter --root /mnt -- chown -R asus:users /home/asus/dotfiles
 
 echo ""
 echo "=== Installation complete! ==="
 echo "You can now reboot into your system."
 echo "  1. reboot"
-echo "  2. Log in as 'asus' and set your user password with: passwd"
+echo "  2. Log in as 'asus'"
 echo "  3. Enjoy your system!"
