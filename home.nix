@@ -34,12 +34,6 @@ in
 
   home.packages = [
     waybar-auto-hide
-    (inputs.apple-fonts.packages.${pkgs.system}.sf-pro.overrideAttrs (_: {
-      src = pkgs.fetchurl {
-        url = "https://devimages-cdn.apple.com/design/resources/download/SF-Pro.dmg";
-        hash = "sha256-W0sZkipBtrduInk0oocbFAXX1qy0Z+yk2xUyFfDWx4s=";
-      };
-    }))
   ];
 
   home.pointerCursor = {

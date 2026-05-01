@@ -12,13 +12,8 @@
     };
 
     waybar-auto-hide = {
-      url   = "github:Zephirus2/waybar_auto_hide";
+      url = "github:Zephirus2/waybar_auto_hide";
       flake = false;
-    };
-
-    apple-fonts = {
-      url = "git+https://codeberg.org/adamcstephens/apple-fonts.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -32,22 +27,35 @@
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
+
+      hmModule = {
+        home-manager = {
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          users.asus = import ./home.nix;
+          backupFileExtension = "backup";
+          extraSpecialArgs = { inherit inputs; };
+        };
+      };
     in
     {
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./configuration.nix
+          ./common.nix
+          ./hosts/laptop/configuration.nix
           home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.asus = import ./home.nix;
-              backupFileExtension = "backup";
-              extraSpecialArgs = { inherit inputs; };
-            };
-          }
+          hmModule
+        ];
+      };
+
+      nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./common.nix
+          ./hosts/desktop/configuration.nix
+          home-manager.nixosModules.home-manager
+          hmModule
         ];
       };
     };

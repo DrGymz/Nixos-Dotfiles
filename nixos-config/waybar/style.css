@@ -18,8 +18,9 @@
     border: none;
     border-radius: 0px;
 
-    font-family: "SF Pro Display", "GeistMono Nerd Font Propo", sans-serif;
+    font-family: "Adwaita Sans", "JetBrainsMono Nerd Font Propo", sans-serif;
     font-weight: bold;
+    /* font-weight: normal; */
 
     min-height: 0;
     padding: 0;
