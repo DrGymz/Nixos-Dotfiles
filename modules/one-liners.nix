@@ -13,6 +13,7 @@
     discord
     btop
     brightnessctl
+    claude-code
     bibata-cursors
     maim
     bitwarden-desktop

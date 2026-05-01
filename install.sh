@@ -73,11 +73,12 @@ nixos-generate-config --root /mnt
 
 # --- Clone dotfiles ---
 echo "[5/7] Cloning dotfiles repo..."
-rm -rf /mnt/etc/nixos/.git /mnt/etc/nixos/*.nix /mnt/etc/nixos/modules /mnt/etc/nixos/nixos-config /mnt/etc/nixos/wallpapers 2>/dev/null || true
 
 # Save the generated hardware config
 cp /mnt/etc/nixos/hardware-configuration.nix /tmp/hw-config.nix
 
+# Clean out generated config and clone dotfiles
+rm -rf /mnt/etc/nixos
 git clone "$REPO_URL" /mnt/etc/nixos
 
 # Replace with the freshly generated hardware config
