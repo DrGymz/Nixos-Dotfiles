@@ -20,6 +20,7 @@
     kitty
     tmux
     hyprpaper
+    localsend
     hypridle
     wl-clipboard
     cliphist

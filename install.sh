@@ -89,6 +89,9 @@ echo "    Cloning dotfiles to /home/asus/dotfiles..."
 mkdir -p /mnt/home/asus
 git clone "$REPO_URL" /mnt/home/asus/dotfiles
 
+# Replace with the freshly generated hardware config in user dotfiles too
+cp /tmp/hw-config.nix /mnt/home/asus/dotfiles/hardware-configuration.nix
+
 # --- Install ---
 echo "[6/7] Running nixos-install (this will take a while)..."
 nixos-install --flake "$FLAKE_REF" --no-root-passwd
