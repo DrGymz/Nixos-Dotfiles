@@ -70,6 +70,7 @@
     initContent = ''
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+      fastfetch
     '';
   };
 
@@ -78,6 +79,22 @@
     settings = {
       user.name = "DrGymz";
       user.email = "258542754+DrGymz@users.noreply.github.com";
+    };
+  };
+
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Gruvbox-Dark";
+      package = pkgs.gruvbox-gtk-theme;
+    };
+    iconTheme = {
+      name = "Gruvbox-Plus-Dark";
+      package = pkgs.gruvbox-plus-icons;
+    };
+    font = {
+      name = "JetBrainsMono Nerd Font Propo";
+      size = 11;
     };
   };
 }

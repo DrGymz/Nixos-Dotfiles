@@ -23,6 +23,7 @@ let
     waybar = "waybar";
     swaync = "swaync";
     hypr = "hypr";
+    fastfetch = "fastfetch";
   };
 in
 
@@ -40,22 +41,6 @@ in
       };
     }))
   ];
-
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Gruvbox-Dark";
-      package = pkgs.gruvbox-gtk-theme;
-    };
-    iconTheme = {
-      name = "Gruvbox-Plus-Dark";
-      package = pkgs.gruvbox-plus-icons;
-    };
-    font = {
-      name = "JetBrainsMono Nerd Font Propo";
-      size = 11;
-    };
-  };
 
   home.pointerCursor = {
     package = pkgs.bibata-cursors;
