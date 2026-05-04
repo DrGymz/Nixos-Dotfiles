@@ -27,35 +27,22 @@
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
-
-      hmModule = {
-        home-manager = {
-          useGlobalPkgs = true;
-          useUserPackages = true;
-          users.asus = import ./home.nix;
-          backupFileExtension = "backup";
-          extraSpecialArgs = { inherit inputs; };
-        };
-      };
     in
     {
-      nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./common.nix
-          ./hosts/laptop/configuration.nix
+          ./configuration.nix
           home-manager.nixosModules.home-manager
-          hmModule
-        ];
-      };
-
-      nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./common.nix
-          ./hosts/desktop/configuration.nix
-          home-manager.nixosModules.home-manager
-          hmModule
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.asus = import ./home.nix;
+              backupFileExtension = "backup";
+              extraSpecialArgs = { inherit inputs; };
+            };
+          }
         ];
       };
     };

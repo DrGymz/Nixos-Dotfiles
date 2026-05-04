@@ -6,9 +6,14 @@
 }:
 
 {
+  imports = [
+    ./hardware-configuration.nix
+  ];
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  networking.hostName = "laptop";
   networking.networkmanager.enable = true;
   hardware.bluetooth = {
     enable = true;
@@ -26,6 +31,7 @@
   nixpkgs.config.allowUnfree = true;
 
   hardware.graphics.enable = true;
+  hardware.acpilight.enable = true;
 
   hardware.nvidia = {
     modesetting.enable = true;
@@ -36,8 +42,11 @@
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.initrd.kernelModules = [ "amdgpu" ];
 
   services = {
+    asusd.enable = true;
+    supergfxd.enable = true;
     blueman.enable = true;
     displayManager.ly.enable = true;
     libinput = {
@@ -50,16 +59,19 @@
     xserver = {
       enable = true;
       videoDrivers = [ "nvidia" ];
+      dpi = 192;
       autoRepeatDelay = 200;
       autoRepeatInterval = 35;
     };
     openssh.enable = true;
+    power-profiles-daemon.enable = false;
   };
 
   services.mullvad-vpn = {
     enable = true;
     package = pkgs.mullvad-vpn;
   };
+  systemd.services.supergfxd.path = [ pkgs.pciutils ];
 
   users.users.asus = {
     isNormalUser = true;

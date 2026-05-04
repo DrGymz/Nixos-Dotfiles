@@ -11,24 +11,7 @@ if ! command -v git &>/dev/null; then
   nix-env -iA nixos.git
 fi
 
-echo "Which host are you installing?"
-echo "  1) laptop  (ASUS laptop — AMD CPU + NVIDIA hybrid)"
-echo "  2) desktop (Desktop PC — Intel CPU + NVIDIA dedicated)"
-echo ""
-read -rp "Enter choice (1 or 2): " HOST_CHOICE
-
-case "$HOST_CHOICE" in
-  1) HOST="laptop" ;;
-  2) HOST="desktop" ;;
-  *)
-    echo "Error: Invalid choice."
-    exit 1
-    ;;
-esac
-
-FLAKE_REF="/mnt/etc/nixos#${HOST}"
-echo ""
-echo "Installing configuration: $HOST"
+FLAKE_REF="/mnt/etc/nixos#nixos"
 echo ""
 
 # --- Disk selection ---
@@ -99,11 +82,11 @@ cp /mnt/etc/nixos/hardware-configuration.nix /tmp/hw-config.nix
 rm -rf /mnt/etc/nixos
 git clone "$REPO_URL" /mnt/etc/nixos
 
-# Place the generated hardware config in the correct host directory
-cp /tmp/hw-config.nix "/mnt/etc/nixos/hosts/${HOST}/hardware-configuration.nix"
+# Place the generated hardware config in the repo root
+cp /tmp/hw-config.nix /mnt/etc/nixos/hardware-configuration.nix
 
 # Flakes only see git-tracked files, so stage the new hardware config
-git -C /mnt/etc/nixos add "hosts/${HOST}/hardware-configuration.nix"
+git -C /mnt/etc/nixos add hardware-configuration.nix
 
 # --- Clone dotfiles to user home (for home-manager symlinks) ---
 echo "    Cloning dotfiles to /home/asus/dotfiles..."
@@ -111,8 +94,8 @@ mkdir -p /mnt/home/asus
 git clone "$REPO_URL" /mnt/home/asus/dotfiles
 
 # Copy hardware config to user dotfiles too
-cp /tmp/hw-config.nix "/mnt/home/asus/dotfiles/hosts/${HOST}/hardware-configuration.nix"
-git -C /mnt/home/asus/dotfiles add "hosts/${HOST}/hardware-configuration.nix"
+cp /tmp/hw-config.nix /mnt/home/asus/dotfiles/hardware-configuration.nix
+git -C /mnt/home/asus/dotfiles add hardware-configuration.nix
 
 # --- Install ---
 echo "[6/7] Running nixos-install (this will take a while)..."
@@ -135,4 +118,4 @@ echo "=== Installation complete! ==="
 echo "You can now reboot into your system."
 echo "  1. reboot"
 echo "  2. Log in as 'asus'"
-echo "  3. Rebuild with: sudo nixos-rebuild switch --flake /etc/nixos#${HOST}"
+echo "  3. Rebuild with: sudo nixos-rebuild switch --flake /etc/nixos#nixos"
