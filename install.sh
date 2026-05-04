@@ -102,6 +102,9 @@ git clone "$REPO_URL" /mnt/etc/nixos
 # Place the generated hardware config in the correct host directory
 cp /tmp/hw-config.nix "/mnt/etc/nixos/hosts/${HOST}/hardware-configuration.nix"
 
+# Flakes only see git-tracked files, so stage the new hardware config
+git -C /mnt/etc/nixos add "hosts/${HOST}/hardware-configuration.nix"
+
 # --- Clone dotfiles to user home (for home-manager symlinks) ---
 echo "    Cloning dotfiles to /home/asus/dotfiles..."
 mkdir -p /mnt/home/asus
@@ -109,6 +112,7 @@ git clone "$REPO_URL" /mnt/home/asus/dotfiles
 
 # Copy hardware config to user dotfiles too
 cp /tmp/hw-config.nix "/mnt/home/asus/dotfiles/hosts/${HOST}/hardware-configuration.nix"
+git -C /mnt/home/asus/dotfiles add "hosts/${HOST}/hardware-configuration.nix"
 
 # --- Install ---
 echo "[6/7] Running nixos-install (this will take a while)..."
