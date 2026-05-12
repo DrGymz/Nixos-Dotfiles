@@ -13,7 +13,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "laptop";
+  networking.hostName = "nixos";
   networking.networkmanager.enable = true;
   hardware.bluetooth = {
     enable = true;
