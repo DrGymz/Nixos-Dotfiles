@@ -8,10 +8,14 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./modules/stylix.nix
   ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+    timeout = 0;
+  };
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
@@ -26,19 +30,33 @@
     automatic = true;
     dates = "weekly";
     options = "--delete-older-than 14d";
+    persistent = true;
   };
   nix.settings.auto-optimise-store = true;
   nixpkgs.config.allowUnfree = true;
+  #DON'T FORGET TO REMOVE LATER
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-39.8.10"
+  ];
 
-  hardware.graphics.enable = true;
-  hardware.acpilight.enable = true;
-
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = true;
-    open = true;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  hardware = {
+    graphics.enable = true;
+    acpilight.enable = true;
+    nvidia = {
+      modesetting.enable = true;
+      powerManagement.enable = true;
+      open = true;
+      nvidiaSettings = true;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      prime = {
+        amdgpuBusId = "PCI:101:0:0";
+        nvidiaBusId = "PCI:100:0:0";
+        offload = {
+          enable = true;
+          enableOffloadCmd = true;
+        };
+      };
+    };
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -48,7 +66,6 @@
     asusd.enable = true;
     supergfxd.enable = true;
     blueman.enable = true;
-    displayManager.ly.enable = true;
     libinput = {
       enable = true;
       mouse = {
@@ -57,14 +74,16 @@
       };
     };
     xserver = {
-      enable = true;
+      enable = false;
       videoDrivers = [ "nvidia" ];
-      dpi = 192;
-      autoRepeatDelay = 200;
-      autoRepeatInterval = 35;
     };
     openssh.enable = true;
     power-profiles-daemon.enable = false;
+    displayManager.sddm.wayland.compositor = "kwin";
+    displayManager.sddm.settings.Theme = {
+      CursorTheme = config.stylix.cursor.name;
+      CursorSize = config.stylix.cursor.size;
+    };
   };
 
   services.mullvad-vpn = {
@@ -88,6 +107,7 @@
     git
     wget
     fastfetch
+    config.stylix.cursor.package
   ];
 
   fonts.packages =
@@ -98,15 +118,17 @@
     ++ [
       pkgs.adwaita-fonts
     ];
-
-  # Particle Photon 2 / P2 USB access (DFU + CDC modes)
-  services.udev.extraRules = ''
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="2b04", MODE="0666", GROUP="dialout"
-    SUBSYSTEM=="tty", ATTRS{idVendor}=="2b04", MODE="0666", GROUP="dialout"
-  '';
-
-  programs.dconf.enable = true;
-  programs.hyprland.enable = true;
+  programs = {
+    dconf.enable = true;
+    hyprland = {
+      enable = true;
+      withUWSM = false;
+    };
+    silentSDDM = {
+      enable = true;
+      theme = "default";
+    };
+  };
 
   nix.settings.experimental-features = [
     "nix-command"

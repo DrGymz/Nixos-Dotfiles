@@ -1,31 +1,36 @@
 {
-  config,
   pkgs,
-  lib,
   ...
 }:
 
 {
   home.packages = with pkgs; [
-    ripgrep
+    cargo
+    clang-tools
+    cmake
     fd
     fzf
-    xclip
-
+    gcc
+    jdk
+    jdt-language-server
     lua-language-server
     nil
-    clang-tools
-    pyright
     nixfmt
-
     nodejs
+    pyright
+    raylib
+    ripgrep
+    rust-analyzer
+    rustc
+    xclip
   ];
-
+  stylix.targets.neovim.enable = false;
   programs.neovim = {
     enable = true;
     viAlias = true;
     vimAlias = true;
-
+    withRuby = false;
+    withPython3 = false;
     initLua = builtins.readFile ../nixos-config/nvim/init.lua;
 
     plugins = with pkgs.vimPlugins; [
@@ -33,8 +38,10 @@
       telescope-nvim
       telescope-fzf-native-nvim
       nvim-treesitter
+      nvim-ufo
 
       lualine-nvim
+      koda-nvim
       gruvbox-nvim
       tokyonight-nvim
       catppuccin-nvim
@@ -64,6 +71,8 @@
         p.tree-sitter-c
         p.tree-sitter-cpp
         p.tree-sitter-css
+        p.tree-sitter-java
+        p.tree-sitter-rust
       ]))
     ];
   };

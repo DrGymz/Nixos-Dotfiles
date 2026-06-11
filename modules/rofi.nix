@@ -1,0 +1,14 @@
+{
+  programs.rofi = {
+    enable = true;
+    extraConfig = {
+      modi = "drun,run,filebrowser,window";
+      show-icons = true;
+      icon-theme = "Papirus";
+      drun-display-format = "{name}";
+      cycle = true;
+      normalize-match = true;
+      click-to-exit = true;
+    };
+  };
+}

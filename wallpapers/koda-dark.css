@@ -1,0 +1,55 @@
+/*
+ * koda-dark palette  (github.com/oskarnurm/koda.nvim, lua/koda/palette/dark.lua)
+ *
+ * Reference colours for hand-theming the components Stylix can't reach
+ * (rofi, waybar, hypr borders, ...). Stylix-managed apps (gtk/qt/firefox/
+ * kitty/swaync) get these via modules/stylix.nix and don't read this file.
+ *
+ * Usage: @import "url(.../koda-dark.css)";  then  color: var(--koda-fg);
+ */
+:root {
+  /* semantic (koda names) */
+  --koda-bg:        #101010;
+  --koda-fg:        #b0b0b0;
+  --koda-dim:       #474747;
+  --koda-line:      #272727;
+  --koda-comment:   #50585d;
+  --koda-keyword:   #777777;
+  --koda-type:      #777777;
+  --koda-operator:  #777777;
+  --koda-border:    #ffffff;
+  --koda-emphasis:  #ffffff;
+  --koda-func:      #ffffff;
+  --koda-string:    #ffffff;
+  --koda-char:      #ffffff;
+  --koda-special:   #ffffff;
+  --koda-const:     #d9ba73;
+  --koda-highlight: #458ee6;
+  --koda-info:      #8ebeec;
+  --koda-success:   #86cd82;
+  --koda-warning:   #d9ba73;
+  --koda-danger:    #ff7676;
+  --koda-green:     #14ba19;
+  --koda-orange:    #ff5733;
+  --koda-red:       #701516;
+  --koda-pink:      #f2a4db;
+  --koda-cyan:      #5abfb5;
+
+  /* base16 (matches modules/stylix.nix base16Scheme) */
+  --base00: #101010; /* bg */
+  --base01: #272727; /* line */
+  --base02: #474747; /* dim / selection */
+  --base03: #50585d; /* comment */
+  --base04: #777777; /* keyword / muted fg */
+  --base05: #b0b0b0; /* fg */
+  --base06: #d6d6d6; /* light fg */
+  --base07: #ffffff; /* emphasis */
+  --base08: #ff7676; /* red */
+  --base09: #ff5733; /* orange */
+  --base0A: #d9ba73; /* yellow */
+  --base0B: #86cd82; /* green */
+  --base0C: #5abfb5; /* cyan */
+  --base0D: #458ee6; /* blue */
+  --base0E: #f2a4db; /* magenta */
+  --base0F: #701516; /* brown */
+}

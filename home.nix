@@ -15,15 +15,6 @@ let
     src = inputs.waybar-auto-hide;
     cargoHash = "sha256-mUY36hnyU/qjHRLqRwfVLl6hAGIy92Sg6s1XB56Hvf8=";
   };
-  configs = {
-    rofi = "rofi";
-    kitty = "kitty";
-    tmux = "tmux";
-    waybar = "waybar";
-    swaync = "swaync";
-    hypr = "hypr";
-    fastfetch = "fastfetch";
-  };
 in
 
 {
@@ -35,25 +26,20 @@ in
     waybar-auto-hide
   ];
 
-  home.pointerCursor = {
-    package = pkgs.bibata-cursors;
-    name = "Bibata-Modern-Classic";
-    size = 24;
-    gtk.enable = true;
-  };
-
-  xdg.configFile = builtins.mapAttrs (name: subpath: {
-    source = create_symlink "${dotfiles}/${subpath}";
-    recursive = true;
-  }) configs // {
-    "nvim/lua" = {
-      source = create_symlink "${dotfiles}/nvim/lua";
-    };
+  xdg.configFile = {
+    "nvim/lua".source = create_symlink "${dotfiles}/nvim/lua";
   };
 
   imports = [
     ./modules/neovim.nix
     ./modules/firefox.nix
     ./modules/one-liners.nix
+    ./modules/kitty.nix
+    ./modules/swaync.nix
+    ./modules/hyprlock.nix
+    ./modules/hyprland.nix
+    ./modules/hypridle.nix
+    ./modules/rofi.nix
+    ./modules/waybar.nix
   ];
 }

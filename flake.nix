@@ -15,6 +15,15 @@
       url = "github:Zephirus2/waybar_auto_hide";
       flake = false;
     };
+
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    silentSDDM = {
+      url = "github:uiriansan/SilentSDDM";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -33,6 +42,8 @@
         system = "x86_64-linux";
         modules = [
           ./configuration.nix
+          inputs.silentSDDM.nixosModules.default
+          inputs.stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
           {
             home-manager = {

@@ -1,64 +1,58 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-    kitty
-    obsidian
-    tmux
-    waybar
-    evince
-    swaynotificationcenter
-    rofi
-    hyprpaper
-    hypridle
-    discord
-    btop
+    amberol
+    bibata-cursors
+    bitwarden-desktop
+    blueman
     brightnessctl
     claude-code
-    bibata-cursors
-    maim
-    bitwarden-desktop
-    kitty
-    tmux
-    hyprpaper
-    localsend
-    hypridle
-    wl-clipboard
     cliphist
-    grim
-    google-chrome
-    slurp
-    pavucontrol
-    playerctl
-    nemo
-    blueman
-    libnotify
-    zsh-powerlevel10k
-    eza
-    raylib
-    gcc
-    cmake
-    pkg-config
-    screen
     curl
-    particle-cli
+    discord
+    eza
+    feh
+    google-chrome
+    grim
+    hypridle
+    hyprpaper
+    kitty
+    libnotify
+    localsend
+    maim
+    mangohud
+    nemo
+    networkmanagerapplet
+    obsidian
+    pavucontrol
+    pkg-config
+    playerctl
+    prismlauncher
+    qbittorrent
+    qgnomeplatform
+    qgnomeplatform-qt6
+    screen
+    slurp
+    swaynotificationcenter
+    tree
+    vlc
+    wl-clipboard
+    wlogout
+    zoom-us
+    zsh-powerlevel10k
   ];
-
-  wayland.windowManager.hyprland = {
-    enable = true;
-    systemd.enable = false;
-  };
 
   programs.bash = {
     enable = true;
   };
 
+  programs.btop.enable = true;
+
   programs.zsh = {
     enable = true;
     shellAliases = {
-      nrs = "cd ~/dotfiles && git add . && sudo nixos-rebuild switch --flake ~/dotfiles#nixos";
-      ls = "eza -la";
-      compile = "particle compile photon2 src/ --saveTo firmware.bin";
-      flash = "particle flash --usb firmware.bin";
+      nrs = "cd ~/dotfiles && git add . && nix flake update && sudo nixos-rebuild switch --flake ~/dotfiles#nixos";
+      #      ls = "eza -l";
     };
     oh-my-zsh = {
       enable = true;
@@ -83,19 +77,7 @@
     };
   };
 
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Gruvbox-Dark";
-      package = pkgs.gruvbox-gtk-theme;
-    };
-    iconTheme = {
-      name = "Gruvbox-Plus-Dark";
-      package = pkgs.gruvbox-plus-icons;
-    };
-    font = {
-      name = "Adwaita Sans";
-      size = 11;
-    };
-  };
+  gtk.enable = true;
+  # gtk.gtk4.theme = null;
+  qt.enable = true;
 }
