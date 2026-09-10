@@ -146,7 +146,7 @@ in
         "custom/nixicon" = {
           format = "";
           tooltip = false;
-          on-click = "~/.config/rofi/launchers/type-2/launcher.sh";
+          on-click = "rofi -show drun";
         };
       }
     ];
@@ -269,6 +269,6 @@ in
 
   stylix.targets.waybar = {
     addCss = false;
-    font = "sansSerif";
+    # font = "sansSerif";
   };
 }

@@ -35,9 +35,9 @@
   nix.settings.auto-optimise-store = true;
   nixpkgs.config.allowUnfree = true;
   #DON'T FORGET TO REMOVE LATER
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-39.8.10"
-  ];
+  #  nixpkgs.config.permittedInsecurePackages = [
+  #    "electron-39.8.10"
+  #  ];
 
   hardware = {
     graphics.enable = true;
@@ -88,7 +88,7 @@
 
   services.mullvad-vpn = {
     enable = true;
-    package = pkgs.mullvad-vpn;
+    gui.enable = true;
   };
   systemd.services.supergfxd.path = [ pkgs.pciutils ];
 
@@ -126,7 +126,7 @@
     };
     silentSDDM = {
       enable = true;
-      theme = "default";
+      theme = "nord";
     };
   };
 

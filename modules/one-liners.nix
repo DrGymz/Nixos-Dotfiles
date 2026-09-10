@@ -8,13 +8,13 @@
     brightnessctl
     claude-code
     cliphist
+    chromium
     curl
     discord
     eza
     feh
-    google-chrome
     grim
-    hypridle
+    #hypridle
     hyprpaper
     kitty
     libnotify
@@ -23,11 +23,11 @@
     mangohud
     nemo
     networkmanagerapplet
-    obsidian
     pavucontrol
     pkg-config
     playerctl
     prismlauncher
+    python3
     qbittorrent
     qgnomeplatform
     qgnomeplatform-qt6
@@ -65,7 +65,7 @@
     initContent = ''
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-      fastfetch
+      # fastfetch
     '';
   };
 

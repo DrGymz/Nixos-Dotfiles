@@ -5,6 +5,7 @@
 
 {
   home.packages = with pkgs; [
+    # arecord
     cargo
     clang-tools
     cmake
@@ -18,6 +19,7 @@
     nixfmt
     nodejs
     pyright
+    python314Packages.pandas
     raylib
     ripgrep
     rust-analyzer
@@ -30,13 +32,14 @@
     viAlias = true;
     vimAlias = true;
     withRuby = false;
-    withPython3 = false;
+    withPython3 = true;
     initLua = builtins.readFile ../nixos-config/nvim/init.lua;
 
     plugins = with pkgs.vimPlugins; [
       plenary-nvim
       telescope-nvim
       telescope-fzf-native-nvim
+      bufferline-nvim
       nvim-treesitter
       nvim-ufo
 
@@ -47,6 +50,7 @@
       catppuccin-nvim
       comment-nvim
       nvim-web-devicons
+      obsidian-nvim
 
       nvim-cmp
       cmp-nvim-lsp

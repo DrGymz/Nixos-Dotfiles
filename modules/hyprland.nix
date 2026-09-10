@@ -18,7 +18,7 @@
 
       decoration = {
         rounding = 10;
-        rounding_power = 1;
+        rounding_power = 0;
         active_opacity = 1.0;
         inactive_opacity = 0.8;
         shadow = {
@@ -100,7 +100,7 @@
         "SUPER, M,      exit,"
         "SUPER, F,      exec, $fileManager"
         "SUPER, D,      exec, $menu || pkill rofi"
-        "SUPER, R,      exec, pkill waybar; waybar & disown; waybar_auto_hide & disown"
+        "SUPER, R,      exec, pkill waybar; waybar & disown; "
         "SUPER, P,      pseudo,"
         "SUPER, V,      exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
         ", Print,       exec, grim -g \"$(slurp -d)\" - | tee ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png | wl-copy"
