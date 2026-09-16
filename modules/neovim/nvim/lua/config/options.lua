@@ -10,7 +10,6 @@ opt.relativenumber = true
 opt.clipboard = "unnamedplus"
 opt.termguicolors = true
 opt.smartindent = true
---opt.perserveindent = true
 opt.autoindent = true
 opt.copyindent = true
 opt.smartcase = true

@@ -25,6 +25,11 @@
       url = "github:karaolidis/nix-obsidian-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # nix-matlab = {
+    #   url = "gitlab:doronbehar/nix-matlab";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   outputs =
@@ -36,12 +41,14 @@
     }@inputs:
     let
       system = "x86_64-linux";
+      # flake-overlays = [ nix-matlab.overlay ];
     in
     {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ./configuration.nix
+          # (import ./configuration.nix flake-overlays)
           {
             nixpkgs.overlays = [
               inputs.obsidian-extensions.overlays.default

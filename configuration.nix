@@ -8,7 +8,8 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./modules/stylix.nix
+    ./modules/displaymanager/displaymanager.nix
+    ./modules/stylix/stylix.nix
   ];
 
   boot.loader = {
@@ -34,10 +35,6 @@
   };
   nix.settings.auto-optimise-store = true;
   nixpkgs.config.allowUnfree = true;
-  #DON'T FORGET TO REMOVE LATER
-  #  nixpkgs.config.permittedInsecurePackages = [
-  #    "electron-39.8.10"
-  #  ];
 
   hardware = {
     graphics.enable = true;
@@ -84,12 +81,12 @@
       CursorTheme = config.stylix.cursor.name;
       CursorSize = config.stylix.cursor.size;
     };
+    mullvad-vpn = {
+      enable = true;
+      gui.enable = true;
+    };
   };
 
-  services.mullvad-vpn = {
-    enable = true;
-    gui.enable = true;
-  };
   systemd.services.supergfxd.path = [ pkgs.pciutils ];
 
   users.users.asus = {
@@ -123,10 +120,6 @@
     hyprland = {
       enable = true;
       withUWSM = false;
-    };
-    silentSDDM = {
-      enable = true;
-      theme = "nord";
     };
   };
 

@@ -1,5 +1,5 @@
 vim.lsp.config('*', {
-	root_markers = { '.git' },
+	capabilities = require('cmp_nvim_lsp').default_capabilities(),
 })
 
 vim.diagnostic.config({
@@ -51,6 +51,16 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		end)
 		map('n', '<F4>', vim.lsp.buf.code_action)
 
+		if client:supports_method('textDocument/inlayHint') then
+			vim.lsp.inlay_hint.enable(true, { bufnr = buf })
+			map('n', '<F5>', function()
+				vim.lsp.inlay_hint.enable(
+					not vim.lsp.inlay_hint.is_enabled({ bufnr = buf }),
+					{ bufnr = buf }
+				)
+			end)
+		end
+
 		if client:supports_method('textDocument/documentHighlight') then
 			local hl = vim.api.nvim_create_augroup('my.lsp.highlight', { clear = false })
 
@@ -83,16 +93,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
 	end,
 })
 
-local caps = require("cmp_nvim_lsp").default_capabilities()
-
 -- Lua
 vim.lsp.config.lua_ls = {
-	cmd = { 'lua-language-server' },
-	filetypes = { 'lua' },
-	root_markers = { '.luarc.json', '.luarc.jsonc', '.git' },
-	capabilities = caps,
 	settings = {
 		Lua = {
+			hint = { enable = true },
 			runtime = { version = 'LuaJIT' },
 			diagnostics = { globals = { 'vim' } },
 			workspace = {
@@ -106,29 +111,13 @@ vim.lsp.config.lua_ls = {
 
 -- C / C++
 vim.lsp.config.clangd = {
-	cmd = { 'clangd' },
-	filetypes = { 'c', 'cpp' },
-	root_markers = { 'compile_commands.json', '.git' },
-	capabilities = caps,
 	init_options = {
 		fallbackFlags = { '-std=c++23' },
 	},
 }
 
--- Python
-vim.lsp.config.pyright = {
-	cmd = { 'pyright-langserver', '--stdio' },
-	filetypes = { 'python' },
-	root_markers = { 'pyproject.toml', 'setup.py', '.git' },
-	capabilities = caps,
-}
-
 -- Nix
 vim.lsp.config.nil_ls = {
-	cmd = { 'nil' },
-	filetypes = { 'nix' },
-	root_markers = { 'flake.nix', '.git' },
-	capabilities = caps,
 	settings = {
 		['nil'] = {
 			formatting = {
@@ -138,8 +127,11 @@ vim.lsp.config.nil_ls = {
 	},
 }
 
-for name in pairs(vim.lsp.config._configs) do
-	if name ~= '*' then
-		vim.lsp.enable(name)
-	end
-end
+vim.lsp.enable({
+	'lua_ls',
+	'clangd',
+	'pyright',
+	'nil_ls',
+	'jdtls',
+	'rust_analyzer',
+})

@@ -1,47 +1,5 @@
 { pkgs, ... }:
 {
-  home.packages = with pkgs; [
-    amberol
-    bibata-cursors
-    bitwarden-desktop
-    blueman
-    brightnessctl
-    claude-code
-    cliphist
-    chromium
-    curl
-    discord
-    eza
-    feh
-    grim
-    #hypridle
-    hyprpaper
-    kitty
-    libnotify
-    localsend
-    maim
-    mangohud
-    nemo
-    networkmanagerapplet
-    pavucontrol
-    pkg-config
-    playerctl
-    prismlauncher
-    python3
-    qbittorrent
-    qgnomeplatform
-    qgnomeplatform-qt6
-    screen
-    slurp
-    swaynotificationcenter
-    tree
-    vlc
-    wl-clipboard
-    wlogout
-    zoom-us
-    zsh-powerlevel10k
-  ];
-
   programs.bash = {
     enable = true;
   };
@@ -52,7 +10,7 @@
     enable = true;
     shellAliases = {
       nrs = "cd ~/dotfiles && git add . && nix flake update && sudo nixos-rebuild switch --flake ~/dotfiles#nixos";
-      #      ls = "eza -l";
+      ls = "eza -l";
     };
     oh-my-zsh = {
       enable = true;
@@ -76,8 +34,4 @@
       user.email = "258542754+DrGymz@users.noreply.github.com";
     };
   };
-
-  gtk.enable = true;
-  # gtk.gtk4.theme = null;
-  qt.enable = true;
 }

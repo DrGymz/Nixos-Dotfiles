@@ -1,6 +1,6 @@
 require('config.options')
 require('config.keybinds')
-require("lsp")
+require("config.lsp")
 require("plugins.nvim-cmp")
 require("plugins.telescope")
 require("plugins.treesitter")

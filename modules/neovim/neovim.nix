@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   ...
 }:
@@ -15,6 +16,7 @@
     jdk
     jdt-language-server
     lua-language-server
+    markdown-oxide
     nil
     nixfmt
     nodejs
@@ -27,13 +29,17 @@
     xclip
   ];
   stylix.targets.neovim.enable = false;
+
+  xdg.configFile."nvim".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/modules/neovim/nvim";
+
   programs.neovim = {
     enable = true;
     viAlias = true;
     vimAlias = true;
     withRuby = false;
     withPython3 = true;
-    initLua = builtins.readFile ../nixos-config/nvim/init.lua;
+    sideloadInitLua = true;
 
     plugins = with pkgs.vimPlugins; [
       plenary-nvim

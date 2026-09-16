@@ -3,7 +3,7 @@
   stylix = {
     enable = true;
     polarity = "dark";
-    image = ../wallpapers/moon.jpg;
+    image = ../../wallpapers/moon.jpg;
 
     base16Scheme = {
       base00 = "101010";

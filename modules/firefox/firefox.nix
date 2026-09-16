@@ -33,7 +33,6 @@
 
         "network.cookie.lifetimePolicy" = 0;
 
-        # Force dark content + UI to match Stylix chrome (koda)
         "layout.css.prefers-color-scheme.content-override" = 0;
         "ui.systemUsesDarkTheme" = 1;
         "browser.display.background_color" = "#101010";

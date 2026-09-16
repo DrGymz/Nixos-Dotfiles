@@ -51,7 +51,7 @@ in
 
       listview = {
         lines = 8;
-        columns = 1;
+        column = 2;
         fixed-height = false;
         scrollbar = false;
         padding = mkLiteral "8px 0px 0px 0px";

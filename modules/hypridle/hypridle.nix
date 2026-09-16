@@ -11,26 +11,26 @@
 
       listener = [
         {
-          timeout = 150; # 2.5min — dim backlight (avoid 0 on OLED)
+          timeout = 150; # 2.5min
           on-timeout = "brightnessctl -s set 10";
           on-resume = "brightnessctl -r";
         }
         {
-          timeout = 150; # 2.5min — kbd backlight off
+          timeout = 150; # 2.5min
           on-timeout = "asusctl leds set off";
           on-resume = "asusctl leds set low";
         }
         {
-          timeout = 300; # 5min — lock
+          timeout = 300; # 5min
           on-timeout = "loginctl lock-session";
         }
         {
-          timeout = 330; # 5.5min — screen off
+          timeout = 330; # 5.5min
           on-timeout = "hyprctl dispatch dpms off";
           on-resume = "hyprctl dispatch dpms on && brightnessctl -r";
         }
         {
-          timeout = 1800; # 30min — suspend
+          timeout = 1800; # 30min
           on-timeout = "systemctl suspend";
         }
       ];
