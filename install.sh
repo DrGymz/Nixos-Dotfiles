@@ -1,20 +1,38 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_URL="https://github.com/DrGymz/Nixos-Dotfiles.git"
+# Must match users.users.* in configuration.nix and nixosConfigurations.* in flake.nix
+USER_NAME="asus"
+HOST="nixos"
+
+DEST="/mnt/home/$USER_NAME/dotfiles"
 
 echo "=== NixOS Installer ==="
 echo ""
 
 if ! command -v git &>/dev/null; then
-  echo "Installing git..."
-  nix-env -iA nixos.git
+  echo "Error: git not found. The live ISO doesn't ship it."
+  echo "Re-run inside: nix-shell -p git"
+  exit 1
 fi
 
-FLAKE_REF="/mnt/etc/nixos#nixos"
-echo ""
+if [[ ! -d /sys/firmware/efi ]]; then
+  echo "Error: booted in legacy BIOS mode, but configuration.nix uses systemd-boot."
+  echo "Reboot the installer in UEFI mode."
+  exit 1
+fi
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_DIR="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel 2>/dev/null || echo "$SCRIPT_DIR")"
+echo "Installing from: $REPO_DIR"
+
+if [[ "$REPO_DIR" == /mnt/* ]]; then
+  echo "Error: run this from a clone outside /mnt."
+  exit 1
+fi
 
 # --- Disk selection ---
+echo ""
 lsblk -d -o NAME,SIZE,MODEL
 echo ""
 read -rp "Enter target disk (e.g. /dev/nvme0n1 or /dev/sda): " DISK
@@ -38,11 +56,16 @@ fi
 echo ""
 echo "[1/7] Partitioning $DISK..."
 
-parted "$DISK" -- mklabel gpt
-parted "$DISK" -- mkpart ESP fat32 1MiB 1GiB
-parted "$DISK" -- set 1 esp on
-parted "$DISK" -- mkpart swap linux-swap 1GiB 9GiB
-parted "$DISK" -- mkpart root ext4 9GiB 100%
+swapoff -a || true
+umount -R /mnt 2>/dev/null || true
+wipefs -a "$DISK"
+
+parted --script --align optimal "$DISK" -- \
+  mklabel gpt \
+  mkpart ESP fat32 1MiB 1GiB \
+  set 1 esp on \
+  mkpart swap linux-swap 1GiB 9GiB \
+  mkpart root ext4 9GiB 100%
 
 # Determine partition names (nvme uses p1/p2/p3, sata uses 1/2/3)
 if [[ "$DISK" == *"nvme"* || "$DISK" == *"mmcblk"* ]]; then
@@ -55,11 +78,19 @@ else
   PART3="${DISK}3"
 fi
 
+# Wait for /dev nodes to appear before formatting
+partprobe "$DISK" || true
+udevadm settle
+for p in "$PART1" "$PART2" "$PART3"; do
+  [[ -b "$p" ]] || { echo "Error: $p never appeared."; exit 1; }
+done
+
 # --- Formatting ---
 echo "[2/7] Formatting partitions..."
+wipefs -a "$PART1" "$PART2" "$PART3"
 mkfs.fat -F 32 -n BOOT "$PART1"
 mkswap -L SWAP "$PART2"
-mkfs.ext4 -L NIXOS "$PART3"
+mkfs.ext4 -F -L NIXOS "$PART3"
 
 # --- Mounting ---
 echo "[3/7] Mounting filesystems..."
@@ -72,50 +103,35 @@ swapon "$PART2"
 echo "[4/7] Generating hardware-configuration.nix..."
 nixos-generate-config --root /mnt
 
-# --- Clone dotfiles ---
-echo "[5/7] Cloning dotfiles repo..."
+# --- Copy dotfiles to user home ---
+echo "[5/7] Copying dotfiles to /home/$USER_NAME/dotfiles..."
+mkdir -p "$DEST"
+cp -a "$REPO_DIR"/. "$DEST"/
 
-# Save the generated hardware config
-cp /mnt/etc/nixos/hardware-configuration.nix /tmp/hw-config.nix
-
-# Clean out generated config and clone dotfiles
-rm -rf /mnt/etc/nixos
-git clone "$REPO_URL" /mnt/etc/nixos
-
-# Place the generated hardware config in the repo root
-cp /tmp/hw-config.nix /mnt/etc/nixos/hardware-configuration.nix
+cp /mnt/etc/nixos/hardware-configuration.nix "$DEST/hardware-configuration.nix"
 
 # Flakes only see git-tracked files, so stage the new hardware config
-git -C /mnt/etc/nixos add hardware-configuration.nix
-
-# --- Clone dotfiles to user home (for home-manager symlinks) ---
-echo "    Cloning dotfiles to /home/asus/dotfiles..."
-mkdir -p /mnt/home/asus
-git clone "$REPO_URL" /mnt/home/asus/dotfiles
-
-# Copy hardware config to user dotfiles too
-cp /tmp/hw-config.nix /mnt/home/asus/dotfiles/hardware-configuration.nix
-git -C /mnt/home/asus/dotfiles add hardware-configuration.nix
+if [[ -d "$DEST/.git" ]]; then
+  git -C "$DEST" add hardware-configuration.nix
+fi
 
 # --- Install ---
 echo "[6/7] Running nixos-install (this will take a while)..."
-nixos-install --flake "$FLAKE_REF" --no-root-passwd
+nixos-install --flake "$DEST#$HOST" --no-root-passwd
 
-# --- Done ---
+# --- Passwords ---
 echo ""
 echo "[7/7] Setting passwords..."
 echo "--- Set root password ---"
 nixos-enter --root /mnt -- passwd root
 echo ""
-echo "--- Set asus user password ---"
-nixos-enter --root /mnt -- passwd asus
+echo "--- Set $USER_NAME password ---"
+nixos-enter --root /mnt -- passwd "$USER_NAME"
 
-# Fix ownership of user dotfiles
-nixos-enter --root /mnt -- chown -R asus:users /home/asus/dotfiles
+nixos-enter --root /mnt -- chown -R "$USER_NAME:users" "/home/$USER_NAME"
 
 echo ""
 echo "=== Installation complete! ==="
-echo "You can now reboot into your system."
 echo "  1. reboot"
-echo "  2. Log in as 'asus'"
-echo "  3. Rebuild with: sudo nixos-rebuild switch --flake /etc/nixos#nixos"
+echo "  2. Log in as '$USER_NAME'"
+echo "  3. Rebuild with: nrs   (sudo nixos-rebuild switch --flake ~/dotfiles#$HOST)"

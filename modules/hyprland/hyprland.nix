@@ -1,4 +1,5 @@
 { lib, ... }:
+#SWITCH TO LUA
 {
   wayland.windowManager.hyprland = {
     enable = true;
@@ -8,7 +9,7 @@
     settings = {
       general = {
         gaps_in = 4;
-        gaps_out = 5;
+        gaps_out = 10;
         border_size = 1;
         "col.active_border" = lib.mkForce "rgba(808080ee)";
         resize_on_border = true;

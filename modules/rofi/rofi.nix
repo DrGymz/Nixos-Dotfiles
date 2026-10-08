@@ -8,7 +8,7 @@ in
   programs.rofi = {
     enable = true;
 
-    extraConfig = {
+    settings = {
       modi = "drun,run,filebrowser,window";
       show-icons = true;
       icon-theme = "Papirus";

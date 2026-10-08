@@ -27,8 +27,4 @@
     "School/.obsidian/appearance.json".force = true;
     "School/.obsidian/community-plugins.json".force = true;
   };
-
-  # stylix.targets.obsidian = {
-  #   enable = true;
-  # };
 }

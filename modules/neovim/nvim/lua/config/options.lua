@@ -17,3 +17,4 @@ opt.ignorecase = true
 opt.wrap = true
 opt.backspace = "indent,eol,start"
 opt.signcolumn = "yes"
+opt.autoread = true

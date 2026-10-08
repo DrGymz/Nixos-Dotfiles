@@ -33,6 +33,16 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		if not client then return end
 
 		local buf = args.buf
+
+		if client.name == 'obsidian-ls' then
+			vim.schedule(function()
+				if vim.api.nvim_buf_is_valid(buf) then
+					vim.lsp.buf_detach_client(buf, client.id)
+				end
+			end)
+			return
+		end
+
 		local map = function(mode, lhs, rhs)
 			vim.keymap.set(mode, lhs, rhs, { buffer = buf })
 		end
@@ -51,8 +61,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		end)
 		map('n', '<F4>', vim.lsp.buf.code_action)
 
+		-- off by default; <F5> toggles
 		if client:supports_method('textDocument/inlayHint') then
-			vim.lsp.inlay_hint.enable(true, { bufnr = buf })
 			map('n', '<F5>', function()
 				vim.lsp.inlay_hint.enable(
 					not vim.lsp.inlay_hint.is_enabled({ bufnr = buf }),
@@ -63,6 +73,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 		if client:supports_method('textDocument/documentHighlight') then
 			local hl = vim.api.nvim_create_augroup('my.lsp.highlight', { clear = false })
+			vim.api.nvim_clear_autocmds({ group = hl, buffer = buf })
 
 			vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
 				buffer = buf,
@@ -78,9 +89,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		end
 
 		if client:supports_method('textDocument/formatting') then
+			local fmt = vim.api.nvim_create_augroup('my.lsp.format', { clear = false })
+			vim.api.nvim_clear_autocmds({ group = fmt, buffer = buf })
+
 			vim.api.nvim_create_autocmd('BufWritePre', {
 				buffer = buf,
-				group = vim.api.nvim_create_augroup('my.lsp.format', { clear = false }),
+				group = fmt,
 				callback = function()
 					vim.lsp.buf.format({
 						bufnr = buf,
@@ -102,7 +116,7 @@ vim.lsp.config.lua_ls = {
 			diagnostics = { globals = { 'vim' } },
 			workspace = {
 				checkThirdParty = false,
-				library = vim.api.nvim_get_runtime_file('', true),
+				library = { vim.env.VIMRUNTIME .. '/lua' },
 			},
 			telemetry = { enable = false },
 		},
@@ -127,11 +141,23 @@ vim.lsp.config.nil_ls = {
 	},
 }
 
+-- Obsidian Markdown
+vim.lsp.config.markdown_oxide = {
+	capabilities = {
+		workspace = {
+			didChangeWatchedFiles = { dynamicRegistration = true },
+		},
+	},
+}
+
 vim.lsp.enable({
 	'lua_ls',
 	'clangd',
 	'pyright',
+	'ruff',
 	'nil_ls',
 	'jdtls',
 	'rust_analyzer',
+	'markdown_oxide',
+	'jsonls'
 })

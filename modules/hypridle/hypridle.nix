@@ -31,7 +31,7 @@
         }
         {
           timeout = 1800; # 30min
-          on-timeout = "systemctl suspend";
+          on-timeout = "shutdown now";
         }
       ];
     };

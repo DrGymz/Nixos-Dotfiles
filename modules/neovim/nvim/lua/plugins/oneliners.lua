@@ -6,6 +6,7 @@ require("mini.pairs").setup({
 	skip_ts = { "string" },
 	skip_unbalanced = true,
 	markdown = true,
+	mapping = {
+		["'"] = { register = { cr = false } },
+	},
 })
-
-require("ibl").setup({})

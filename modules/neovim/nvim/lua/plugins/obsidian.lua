@@ -4,7 +4,7 @@ require("obsidian").setup({
 		{ name = "school", path = "~/School" },
 	},
 	templates = {
-		folder = "dailies",
+		folder = "templates",
 	},
 	daily_notes = {
 		folder = "dailies",

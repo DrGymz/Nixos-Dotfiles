@@ -27,7 +27,6 @@
     pavucontrol
     pkg-config
     playerctl
-    prismlauncher
     python3
     qbittorrent
     qgnomeplatform

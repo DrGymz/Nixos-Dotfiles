@@ -1,6 +1,5 @@
 { pkgs, ... }:
 let
-  #You can write scripts inside nix files, everyday the more you know!
   asusStatus = pkgs.writeShellScript "asus-perf-status" ''
     mode=$(asusctl profile get | awk '/Active profile/ {print $NF}')
     case "$mode" in
@@ -269,6 +268,5 @@ in
 
   stylix.targets.waybar = {
     addCss = false;
-    # font = "sansSerif";
   };
 }

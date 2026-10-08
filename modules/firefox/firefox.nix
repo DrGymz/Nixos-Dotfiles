@@ -1,8 +1,6 @@
 {
   config,
-  pkgs,
   inputs,
-  lib,
   ...
 }:
 
@@ -21,6 +19,7 @@
         sponsorblock
         darkreader
         youtube-shorts-block
+        bitwarden
       ];
 
       extraConfig = builtins.readFile ./arkenfox.js;

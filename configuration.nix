@@ -20,6 +20,7 @@
 
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.macAddress = "permanent";
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;

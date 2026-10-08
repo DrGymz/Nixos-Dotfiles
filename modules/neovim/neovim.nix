@@ -19,13 +19,13 @@
     markdown-oxide
     nil
     nixfmt
-    nodejs
     pyright
-    python314Packages.pandas
+    ruff
     raylib
     ripgrep
     rust-analyzer
     rustc
+    vscode-langservers-extracted
     xclip
   ];
   stylix.targets.neovim.enable = false;
@@ -48,33 +48,26 @@
       bufferline-nvim
       nvim-treesitter
       nvim-ufo
-
       lualine-nvim
       koda-nvim
-      gruvbox-nvim
-      tokyonight-nvim
-      catppuccin-nvim
       comment-nvim
       nvim-web-devicons
       obsidian-nvim
-
       nvim-cmp
       cmp-nvim-lsp
-      neodev-nvim
       nvim-lspconfig
       cmp-buffer
       cmp-path
       cmp-cmdline
       luasnip
       cmp_luasnip
-
       nvim-colorizer-lua
       mini-pairs
-      indent-blankline-nvim
 
       (nvim-treesitter.withPlugins (p: [
         p.tree-sitter-nix
         p.tree-sitter-vim
+        p.tree-sitter-json
         p.tree-sitter-lua
         p.tree-sitter-bash
         p.tree-sitter-python

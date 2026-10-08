@@ -12,7 +12,8 @@
     };
 
     stylix = {
-      url = "github:nix-community/stylix";
+      # PR #2501 (rofi settings.font) on top of master; drop the pin once merged
+      url = "github:Azd325/stylix/ff8315c4ec6ebae94cc4ad3bb0666b7f96b266bb";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

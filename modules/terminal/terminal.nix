@@ -8,6 +8,7 @@
 
   programs.zsh = {
     enable = true;
+    autosuggestion.enable = true;
     shellAliases = {
       nrs = "cd ~/dotfiles && git add . && nix flake update && sudo nixos-rebuild switch --flake ~/dotfiles#nixos";
       ls = "eza -l";
